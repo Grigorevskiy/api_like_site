@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
-from api.views import news, category, journey, comment
+from api.views import news, category, journey, comment, faq, client_company, document
 from api.views.comment import CommentLISTView
 
 from rest_framework import routers
@@ -28,6 +28,9 @@ router = routers.DefaultRouter()
 router.register(r'news', news.NewsViewSet)
 router.register(r'category', category.CategoryViewSet)
 router.register(r'journey', journey.JourneyViewSet)
+router.register(r'faq', faq.FaqViewSet)
+router.register(r'client_company', client_company.ClientCompanyViewSet)
+router.register(r'documents', document.DocumentViewSet)
 # router.register(r'comments', comment.CommentCommentsView, base_name='comments')
 
 
@@ -37,7 +40,6 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^user/', include('rest_auth.urls')),
     url(r'^user/registration/', include('rest_auth.registration.urls')),
-
     url(r'^comment/', CommentLISTView.as_view()),
 ]
 
