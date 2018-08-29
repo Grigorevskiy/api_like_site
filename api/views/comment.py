@@ -15,7 +15,7 @@ class CommentLISTView(ListCreateAPIView):
         return Comment.objects.filter(journey_id=self.kwargs.get('pk', 0)).select_related('user')
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user, journey_id=1)
+        serializer.save(user=self.request.user, journey_id=self.kwargs.get('pk', 0))
 
 
 class JourneyCommentsDetailView(RetrieveUpdateDestroyAPIView):
