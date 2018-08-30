@@ -10,4 +10,5 @@ class ClientCompanySerializer(serializers.HyperlinkedModelSerializer):
             'title',
             'logo',
             'site',
+            'url',
         ]

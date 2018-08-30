@@ -9,4 +9,5 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'title',
             'document',
+            'url',
         ]

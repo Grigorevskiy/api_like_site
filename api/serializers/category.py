@@ -10,4 +10,5 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
             'name',
             'description',
             'category_logo',
+            'url',
         ]

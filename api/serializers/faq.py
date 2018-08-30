@@ -9,4 +9,5 @@ class FaqSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'question',
             'answer',
+            'url',
         ]

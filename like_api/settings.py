@@ -142,3 +142,11 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'public/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# TEST EMAIL CONFIGURATION
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'grigorevskiiy@gmail.com'
+EMAIL_HOST_PASSWORD = 'grisha9595'
+EMAIL_PORT = 587
