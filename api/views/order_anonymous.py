@@ -19,4 +19,12 @@ class OrderAnonymousViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
+
+        send_mail('Here will be title of email!',
+                  'Here is a text for email!!',
+                  EMAIL_HOST_USER,
+                  [request.POST['email']],
+                  html_message='<html><body><h1>Hello, world</h1></body></html>',
+                  fail_silently=False)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

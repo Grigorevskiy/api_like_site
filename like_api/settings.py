@@ -147,6 +147,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # TEST EMAIL CONFIGURATION
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'grigorevskiiy@gmail.com'
-EMAIL_HOST_PASSWORD = 'grisha9595'
+EMAIL_HOST_USER = 'email_for_send@mail.ru' # Clarify email for sending an email
+EMAIL_HOST_PASSWORD = 'password'
 EMAIL_PORT = 587
