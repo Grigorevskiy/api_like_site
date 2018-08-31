@@ -3,7 +3,8 @@ from django.contrib import admin
 from rest_framework import routers
 
 from api.views.comment import CommentLISTView, JourneyCommentsDetailView
-from api.views import news, category, journey, comment, faq, client_company, document, order_anonymous
+from api.views.order import OrderAPIView, OrderDetailView
+from api.views import news, category, journey, comment, faq, client_company, document, order_anonymous, order
 
 
 router = routers.DefaultRouter()
@@ -17,8 +18,12 @@ router.register(r'order_anonymous', order_anonymous.OrderAnonymousViewSet)
 
 
 urlpatterns = [
+    url(r'^journey/(?P<pk>[0-9]+)/order/$', OrderAPIView.as_view()),
+    url(r'^journey/(?P<pk>[0-9]+)/order/(?P<order_pk>[0-9]+)/$', OrderDetailView.as_view()),
+
     url(r'^journey/(?P<pk>[0-9]+)/comments/$', CommentLISTView.as_view()),
     url(r'^journey/(?P<pk>[0-9]+)/comments/(?P<com_pk>[0-9]+)/$', JourneyCommentsDetailView.as_view()),
+
     url(r'^user/', include('rest_auth.urls')),
     url(r'^user/registration/', include('rest_auth.registration.urls')),
 ]
