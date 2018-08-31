@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News, NewsPhoto, Category, Journey, JourneyPhoto, Faq, ClientCompany, Document
+from .models import News, NewsPhoto, Category, Journey, JourneyPhoto, Faq, ClientCompany, Document, Order, OrderAnonymous
 
 
 class NewsPhotoInline(admin.TabularInline):
@@ -28,3 +28,5 @@ admin.site.register(Journey, JouneyAdmin)
 admin.site.register(Faq)
 admin.site.register(ClientCompany)
 admin.site.register(Document)
+admin.site.register(Order)
+admin.site.register(OrderAnonymous)

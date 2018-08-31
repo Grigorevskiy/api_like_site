@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 class News(models.Model):
     class Meta:
         ordering = ("-created_at",)
+        verbose_name = "Новина"
+        verbose_name_plural = "Новини"
 
     title = models.CharField(max_length=255, blank=False)
     short_description = models.TextField(blank=False)
@@ -103,6 +105,7 @@ class ClientCompany(models.Model):
 class Document(models.Model):
     class Meta:
         verbose_name = "Документ"
+        verbose_name_plural = "Документи"
         ordering = ('title',)
 
     title = models.CharField(max_length=255, verbose_name="Назва документу", blank=False)
