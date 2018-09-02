@@ -137,8 +137,8 @@ class Order(models.Model):
         (1, 'Оплачене'),
     )
 
-    user = models.ForeignKey(User, verbose_name='Покупець', on_delete=False)
-    journey = models.ForeignKey(Journey, related_name='in_orders', on_delete=False)
+    user = models.ForeignKey(User, verbose_name='Покупець', on_delete=False, editable=False)
+    journey = models.ForeignKey(Journey, related_name='in_orders', on_delete=False, editable=False)
     email_address = models.CharField(max_length=255, verbose_name='Email адрес', blank=False)
     contact_phone = models.CharField(max_length=255, verbose_name='Номер телефону', blank=False)
     status = models.IntegerField(choices=ORDER_STATUS_CHOICES, default=ORDER_STATUS_CHOICES[0][0])
