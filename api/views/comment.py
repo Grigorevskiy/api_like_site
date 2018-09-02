@@ -1,13 +1,11 @@
-from rest_framework import viewsets
 from rest_framework.generics import *
 from rest_framework.permissions import IsAuthenticated
 from api.serializers.comment import CommentSerializer
-from api.models import Comment, Journey
+from api.models import Comment
 from ..permissions import IsOwner
 
 
 class CommentLISTView(ListCreateAPIView):
-
     permission_classes = (IsAuthenticated,)
     serializer_class = CommentSerializer
 

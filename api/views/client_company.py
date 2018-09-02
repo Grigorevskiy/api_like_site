@@ -4,6 +4,5 @@ from api.models import ClientCompany
 
 
 class ClientCompanyViewSet(viewsets.ReadOnlyModelViewSet):
-
     queryset = ClientCompany.objects.all()
     serializer_class = ClientCompanySerializer

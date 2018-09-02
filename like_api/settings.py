@@ -150,3 +150,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'email_for_send@mail.ru' # Clarify email for sending an email
 EMAIL_HOST_PASSWORD = 'password'
 EMAIL_PORT = 587
+
+ACCOUNT_EMAIL_VERIFICATION = "none"

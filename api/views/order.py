@@ -1,11 +1,8 @@
-from django.contrib.auth.models import User
 from rest_framework.generics import *
 from api.serializers.order import OrderSerializer
-from rest_framework.response import Response
-from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from api.models import Journey, Order
-from api.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser
 
 
 class OrderAPIView(ListCreateAPIView):
@@ -16,15 +13,13 @@ class OrderAPIView(ListCreateAPIView):
     def get_queryset(self):
         return Order.objects.filter(journey_id=self.kwargs.get('pk', 0)).select_related('user')
 
-    def create(self, request, *args, **kwargs):
-        order, created = Order.objects.get_or_create(user=request.user, journey_id=self.kwargs.get('pk', 0),
-                                                     email_address=request.data['email_address'],
-                                                     contact_phone=request.data['contact_phone'],
-                                                     total=request.data['total'],)
-        order.save()
+    def perform_create(self, serializer):
+        journey = Journey.objects.get(pk=self.kwargs.get('pk'))
+        persons = serializer.validated_data['persons']
 
-        return Response()
+        total = int(persons) * journey.price
 
+        serializer.save(user=self.request.user, journey_id=self.kwargs.get('pk'), total=total)
 
 
 class OrderDetailView(RetrieveUpdateDestroyAPIView):

@@ -10,6 +10,7 @@ class NewsImageSerializer(serializers.ModelSerializer):
 
 class NewsSerializer(serializers.HyperlinkedModelSerializer):
     images = NewsImageSerializer(source='news_image', many=True, read_only=True)
+
     class Meta:
         model = News
         fields = [

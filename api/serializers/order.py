@@ -1,10 +1,13 @@
 from rest_framework import serializers
+
 from ..models import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
     status = serializers.IntegerField(read_only=True)
     total = serializers.IntegerField(read_only=True)
+    email_address = serializers.EmailField(required=True)
+
     class Meta:
         model = Order
         fields = [
@@ -19,4 +22,3 @@ class OrderSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         ]
-

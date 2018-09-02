@@ -4,6 +4,5 @@ from api.models import Document
 
 
 class DocumentViewSet(viewsets.ReadOnlyModelViewSet):
-
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
