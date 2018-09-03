@@ -3,6 +3,7 @@ from ..models import News, NewsPhoto
 
 
 class NewsImageSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = NewsPhoto
         fields = ('image',)

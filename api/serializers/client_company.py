@@ -3,6 +3,7 @@ from ..models import ClientCompany
 
 
 class ClientCompanySerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = ClientCompany
         fields = [

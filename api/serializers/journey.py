@@ -3,6 +3,7 @@ from ..models import Journey, JourneyPhoto
 
 
 class JourneyImageSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = JourneyPhoto
         fields = ('image',)
@@ -10,6 +11,7 @@ class JourneyImageSerializer(serializers.ModelSerializer):
 
 class JourneySerializer(serializers.HyperlinkedModelSerializer):
     images = JourneyImageSerializer(source='photos', many=True, read_only=True)
+
     class Meta:
         model = Journey
         fields = [

@@ -3,6 +3,7 @@ from ..models import OrderAnonymous
 
 
 class OrderAnonymousSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = OrderAnonymous
         fields = [

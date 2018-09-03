@@ -17,7 +17,10 @@ class OrderAPIView(ListCreateAPIView):
         journey = Journey.objects.get(pk=self.kwargs.get('pk'))
         persons = serializer.validated_data['persons']
 
-        total = int(persons) * journey.price
+        if journey.sale_price:
+            total = int(persons) * journey.sale_price
+        else:
+            total = int(persons) * journey.price
 
         serializer.save(user=self.request.user, journey_id=self.kwargs.get('pk'), total=total)
 
