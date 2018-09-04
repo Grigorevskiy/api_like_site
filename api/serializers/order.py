@@ -4,8 +4,6 @@ from ..models import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    status = serializers.IntegerField(read_only=True)
-    total = serializers.IntegerField(read_only=True)
     email_address = serializers.EmailField(required=True)
 
     class Meta:
@@ -14,11 +12,11 @@ class OrderSerializer(serializers.ModelSerializer):
             'id',
             'email_address',
             'contact_phone',
-            'total',
             'persons',
             'journey',
             'user',
-            'status',
             'created_at',
             'updated_at',
         ]
+
+        read_only_fields = ['status', 'total']

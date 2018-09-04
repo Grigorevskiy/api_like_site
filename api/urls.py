@@ -3,7 +3,7 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from api.views.comment import JourneyCommentsCreateAPIView, JourneyCommentsListAPIView, JourneyCommentsDetailView
 from api.views.order import OrderAPIView, OrderDetailView
-from api.views import news, category, journey, comment, faq, client_company, document, order_anonymous, order
+from api.views import news, category, journey, faq, client_company, document, order_anonymous
 
 
 router = routers.DefaultRouter()

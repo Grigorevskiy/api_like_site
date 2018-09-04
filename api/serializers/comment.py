@@ -14,3 +14,5 @@ class CommentSerializer(serializers.ModelSerializer):
             'body',
             'created_at',
         ]
+
+        read_only_fields = ['user']
