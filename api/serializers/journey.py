@@ -7,11 +7,11 @@ class JourneyImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JourneyPhoto
-        fields = ('image',)
+        exclude = ('news',)
 
 
 class JourneySerializer(serializers.ModelSerializer):
-    images = JourneyImageSerializer(source='photos', many=True, read_only=True)
+    images = JourneyImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Journey
@@ -28,5 +28,4 @@ class JourneySerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'images',
-            'url',
         ]

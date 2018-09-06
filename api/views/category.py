@@ -1,27 +1,21 @@
 
 from api.serializers.category import CategorySerializer
 from api.models import Category
+from api.permissions import IsAdminOrReadOnly
 
 from rest_framework.generics import *
-from rest_framework import permissions
 
 
-class CategoryCreateAPIView(CreateAPIView):
+class CategoryCreateListAPIView(ListCreateAPIView):
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsAdminOrReadOnly]
 
     queryset = Category.objects.all()
 
 
-class CategoryListAPIView(ListAPIView):
+class CategoryDetailsAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
-
-    queryset = Category.objects.all()
-
-
-class CategoryRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_queryset(self):
         return Category.objects.filter(id=self.kwargs.get('pk', 0))

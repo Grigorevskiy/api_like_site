@@ -7,8 +7,9 @@ from like_api.settings import EMAIL_HOST_USER
 
 
 class OrderAnonymousViewSet(viewsets.ModelViewSet):
-    queryset = OrderAnonymous.objects.all()
     serializer_class = OrderAnonymousSerializer
+
+    queryset = OrderAnonymous.objects.all()
 
     def perform_create(self, serializer):
         send_mail('Here will be title of email!',

@@ -2,14 +2,14 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 from api.views.comment import JourneyCommentsView, JourneyCommentsDetail
-from api.views.category import CategoryCreateAPIView, CategoryListAPIView, CategoryRetrieveUpdateDestroyAPIView
+from api.views.category import CategoryCreateListAPIView, CategoryDetailsAPIView
 from api.views.order import OrderAPIView, OrderDetailView
-from api.views import news, journey, faq, client_company, document, order_anonymous
+from api.views.journey import JourneyCreateAPIView, JourneyListAPIViews, JourneyRetrieveUpdateDeleteAPIView
+from api.views import news, faq, client_company, document, order_anonymous
 
 
 router = routers.DefaultRouter()
 router.register(r'news', news.NewsViewSet)
-router.register(r'journey', journey.JourneyViewSet)
 router.register(r'faq', faq.FaqViewSet)
 router.register(r'client_company', client_company.ClientCompanyViewSet)
 router.register(r'documents', document.DocumentViewSet)
@@ -20,9 +20,12 @@ urlpatterns = [
     url(r'^journey/(?P<pk>[0-9]+)/order/$', OrderAPIView.as_view()),
     url(r'^journey/(?P<pk>[0-9]+)/order/(?P<order_pk>[0-9]+)/$', OrderDetailView.as_view()),
 
-    url(r'^category/$', CategoryListAPIView.as_view()),
-    url(r'^category/create/$', CategoryCreateAPIView.as_view()),
-    url(r'^category/(?P<pk>[0-9]+)/$', CategoryRetrieveUpdateDestroyAPIView.as_view()),
+    url(r'^journey/$', JourneyListAPIViews.as_view()),
+    url(r'^journey/create/$', JourneyCreateAPIView.as_view()),
+    url(r'^journey/(?P<pk>[0-9]+)/$', JourneyRetrieveUpdateDeleteAPIView.as_view()),
+
+    url(r'^category/$', CategoryCreateListAPIView.as_view()),
+    url(r'^category/(?P<pk>[0-9]+)/$', CategoryDetailsAPIView.as_view()),
 
     url(r'^journey/(?P<pk>[0-9]+)/comments/$', JourneyCommentsView.as_view()),
     url(r'^journey/(?P<pk>[0-9]+)/comments/(?P<com_pk>[0-9]+)/$', JourneyCommentsDetail.as_view()),
