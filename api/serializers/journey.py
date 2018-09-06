@@ -10,7 +10,7 @@ class JourneyImageSerializer(serializers.ModelSerializer):
         fields = ('image',)
 
 
-class JourneySerializer(serializers.HyperlinkedModelSerializer):
+class JourneySerializer(serializers.ModelSerializer):
     images = JourneyImageSerializer(source='photos', many=True, read_only=True)
 
     class Meta:
