@@ -35,4 +35,4 @@ class OrderAnonymousDetailsAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
-        return OrderAnonymous.objects.filter(orderanonymous_id=self.kwargs.get('pk', 0))
+        return OrderAnonymous.objects.filter(id=self.kwargs.get('pk', 0))

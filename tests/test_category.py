@@ -47,8 +47,9 @@ class TestCategoryApi(APITestCase):
 
     def test_update_category_as_not_admin(self):
         update_category = self.client.put('/category/{}/'.format(self.category.pk),
-                                          data=json.dumps({'name': 'new name1',
-                                                           'description': 'new des'}), content_type='application/json')
+                                          data=json.dumps({'name': 'new name1', 'description': 'new des'}),
+                                          content_type='application/json')
+
         self.assertEqual(401, update_category.status_code)
 
     def test_delete_category(self):
