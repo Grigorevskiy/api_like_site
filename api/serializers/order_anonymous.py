@@ -3,7 +3,7 @@ from rest_framework import serializers
 from ..models import OrderAnonymous
 
 
-class OrderAnonymousSerializer(serializers.HyperlinkedModelSerializer):
+class OrderAnonymousSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderAnonymous
@@ -15,6 +15,6 @@ class OrderAnonymousSerializer(serializers.HyperlinkedModelSerializer):
             'duration',
             'email',
             'phone',
-            'contacted',
-            'url',
         ]
+
+        read_only_fields = ['contacted']

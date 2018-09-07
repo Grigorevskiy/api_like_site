@@ -7,7 +7,7 @@ from api.models import Category, Journey, Comment
 from django.contrib.auth.models import User
 
 
-class TestCategoryApi(APITestCase):
+class TestCommentsApi(APITestCase):
 
     def setUp(self):
         self.client = Client()
