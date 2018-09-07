@@ -4,7 +4,7 @@ from rest_framework import routers
 from api.views.comment import JourneyCommentsView, JourneyCommentsDetail
 from api.views.category import CategoryCreateListAPIView, CategoryDetailsAPIView
 from api.views.order import OrderAPIView, OrderDetailView
-from api.views.journey import JourneyCreateAPIView, JourneyListAPIViews, JourneyRetrieveUpdateDeleteAPIView
+from api.views.journey import JourneyCreateListAPIView, JourneyDetailsAPIView
 from api.views import news, faq, client_company, document, order_anonymous
 
 
@@ -20,9 +20,8 @@ urlpatterns = [
     url(r'^journey/(?P<pk>[0-9]+)/order/$', OrderAPIView.as_view()),
     url(r'^journey/(?P<pk>[0-9]+)/order/(?P<order_pk>[0-9]+)/$', OrderDetailView.as_view()),
 
-    url(r'^journey/$', JourneyListAPIViews.as_view()),
-    url(r'^journey/create/$', JourneyCreateAPIView.as_view()),
-    url(r'^journey/(?P<pk>[0-9]+)/$', JourneyRetrieveUpdateDeleteAPIView.as_view()),
+    url(r'^journey/$', JourneyCreateListAPIView.as_view()),
+    url(r'^journey/(?P<pk>[0-9]+)/$', JourneyDetailsAPIView.as_view()),
 
     url(r'^category/$', CategoryCreateListAPIView.as_view()),
     url(r'^category/(?P<pk>[0-9]+)/$', CategoryDetailsAPIView.as_view()),

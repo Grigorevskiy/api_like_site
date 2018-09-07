@@ -2,11 +2,10 @@
 from rest_framework import viewsets
 from api.serializers.client_company import ClientCompanySerializer
 from api.models import ClientCompany
-from rest_framework import permissions
-
+from api.permissions import IsAdminOrReadOnly
 
 class ClientCompanyViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAdminUser]
     serializer_class = ClientCompanySerializer
+    permission_classes = (IsAdminOrReadOnly,)
 
     queryset = ClientCompany.objects.all()

@@ -8,7 +8,6 @@ from rest_framework import permissions
 
 
 class JourneyCommentsView(ListCreateAPIView):
-    """Get Comments for Event or Create new Comment for this Event"""
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = CommentSerializer
 

@@ -7,7 +7,7 @@ class JourneyImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JourneyPhoto
-        exclude = ('news',)
+        exclude = ('journey',)
 
 
 class JourneySerializer(serializers.ModelSerializer):

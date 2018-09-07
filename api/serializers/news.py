@@ -7,11 +7,11 @@ class NewsImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NewsPhoto
-        exclude = ("journey",)
+        exclude = ("news",)
 
 
-class NewsSerializer(serializers.HyperlinkedModelSerializer):
-    images = NewsImageSerializer(source='news_image', read_only=True)
+class NewsSerializer(serializers.ModelSerializer):
+    images = NewsImageSerializer(read_only=True)
 
     class Meta:
         model = News
@@ -23,5 +23,4 @@ class NewsSerializer(serializers.HyperlinkedModelSerializer):
             'created_at',
             'published',
             'images',
-            'url',
         ]
