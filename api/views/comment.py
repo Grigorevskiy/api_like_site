@@ -19,9 +19,9 @@ class JourneyCommentsView(ListCreateAPIView):
 
 
 class JourneyCommentsDetail(RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated, IsOwner)
+    permission_classes = (IsOwner,)
     serializer_class = CommentSerializer
     lookup_url_kwarg = 'com_pk'
 
     def get_queryset(self):
-        return Comment.objects.filter(event_id=self.kwargs.get('pk', 0))
+        return Comment.objects.filter(journey_id=self.kwargs.get('pk', 0))

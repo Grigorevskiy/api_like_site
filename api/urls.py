@@ -5,7 +5,7 @@ from api.views.comment import JourneyCommentsView, JourneyCommentsDetail
 from api.views.category import CategoryCreateListAPIView, CategoryDetailsAPIView
 from api.views.order import OrderAPIView, OrderDetailView
 from api.views.journey import JourneyCreateListAPIView, JourneyDetailsAPIView
-from api.views import news, faq, client_company, document, order_anonymous
+from api.views import news, faq, client_company, document, order_anonymous, feedback
 
 
 router = routers.DefaultRouter()
@@ -14,6 +14,7 @@ router.register(r'faq', faq.FaqViewSet)
 router.register(r'client_company', client_company.ClientCompanyViewSet)
 router.register(r'documents', document.DocumentViewSet)
 router.register(r'order_anonymous', order_anonymous.OrderAnonymousViewSet)
+router.register(r'feedback', feedback.FeedBackViewSet)
 
 
 urlpatterns = [

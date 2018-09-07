@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -88,18 +89,18 @@ class ClientCompany(models.Model):
         return self.title
 
 
-# class Feedback(models.Model):
-#     class Meta:
-#         verbose_name = "Відгук"
-#         verbose_name_plural = "Відгуки"
-#
-#     name = models.CharField(max_length=255, verbose_name='Імя', blank=True)
-#     body_text = models.TextField(verbose_name='Відгук')
-#     created_at = models.DateField(auto_now_add=True)
-#     is_published = models.BooleanField(default=False, verbose_name='Опубліковано?')
-#
-#     def __str__(self):
-#         return self.name
+class Feedback(models.Model):
+    class Meta:
+        verbose_name = "Відгук"
+        verbose_name_plural = "Відгуки"
+
+    name = models.CharField(max_length=255, verbose_name='Імя', blank=True)
+    body_text = models.TextField(verbose_name='Відгук')
+    created_at = models.DateField(auto_now_add=True)
+    is_published = models.BooleanField(default=False, verbose_name='Опубліковано?')
+
+    def __str__(self):
+        return self.name
 
 
 class Document(models.Model):
