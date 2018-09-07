@@ -1,4 +1,6 @@
 
+import json
+
 from rest_framework.test import APITestCase
 from django.test import Client
 from api.models import Category, Journey, Comment
@@ -33,7 +35,7 @@ class TestCategoryApi(APITestCase):
         expected_text = 'This is auto test'
         self.client.force_login(self.user)
         response = self.client.post('/journey/{}/comments/'.format(self.journey.id),
-                                    data={'body': expected_text, 'journey': self.journey.id, 'user': self.user.id})
+                                    data={'body': expected_text, 'journey': self.journey.id})
 
         self.assertEqual(201, response.status_code)
         self.assertEqual(expected_text, response.data['body'])
@@ -60,9 +62,44 @@ class TestCategoryApi(APITestCase):
         self.test_create_comment_if_authorized()
         comment_id = self.journey.comments.first().id
 
-        another_user = User.objects.create(username='second_user')
+        another_user = User.objects.create(username='another_user')
         self.client.force_login(another_user)
 
         delete_comment = self.client.delete('/journey/{}/comments/{}/'.format(self.journey.id, comment_id))
 
         self.assertEqual(403, delete_comment.status_code)
+
+    def test_update_comment_if_authorized(self):
+        self.test_create_comment_if_authorized()
+        comment_id = self.journey.comments.first().id
+
+        updated_comment = self.client.put('/journey/{}/comments/{}/'.format(self.journey.id,
+                                                                            comment_id),
+                                          data=json.dumps({'body': 'Updated Comment', 'journey': self.journey.id}),
+                                          content_type='application/json')
+
+        self.assertEqual(200, updated_comment.status_code)
+
+        current_comment = self.client.get('/journey/{}/comments/{}/'.format(self.journey.id, comment_id))
+
+        self.assertEqual(200, current_comment.status_code)
+        self.assertEqual(updated_comment.data, current_comment.data)
+
+    def test_update_comment_if_unauthorized(self):
+        update_comment = self.client.put('/journey/{}/comments/{}/'.format(self.journey.id,
+                                                                           self.journey.comments.first().id),
+                                         data=json.dumps({'body': 'Test Update Comment'}),
+                                         content_type='application/json')
+
+        self.assertEqual(401, update_comment.status_code)
+
+    def test_update_comment_if_not_owner(self):
+        self.test_create_comment_if_authorized()
+        comment_id = self.journey.comments.first().id
+
+        another_user = User.objects.create(username="another_user")
+        self.client.force_login(another_user)
+
+        update_comment = self.client.put('/journey/{}/comments/{}/'.format(self.journey.id, comment_id))
+
+        self.assertEqual(403, update_comment.status_code)
