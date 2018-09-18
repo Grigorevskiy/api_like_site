@@ -3,15 +3,16 @@ from rest_framework import serializers
 from ..models import Journey, JourneyPhoto
 
 
-class JourneyImageSerializer(serializers.ModelSerializer):
+class JourneyImageSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = JourneyPhoto
         exclude = ('journey',)
 
 
-class JourneySerializer(serializers.ModelSerializer):
+class JourneySerializer(serializers.HyperlinkedModelSerializer):
     images = JourneyImageSerializer(many=True, read_only=True)
+    url = serializers.HyperlinkedIdentityField(view_name='journey-detail')
 
     class Meta:
         model = Journey
@@ -28,4 +29,5 @@ class JourneySerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'images',
+            'url',
         ]
