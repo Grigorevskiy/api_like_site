@@ -7,11 +7,13 @@ class JourneyImageSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = JourneyPhoto
-        exclude = ('journey',)
+        fields = [
+            'image',
+        ]
 
 
 class JourneySerializer(serializers.HyperlinkedModelSerializer):
-    images = JourneyImageSerializer(many=True, read_only=True)
+    images = JourneyImageSerializer(many=True, source='photos', read_only=True)
     url = serializers.HyperlinkedIdentityField(view_name='journey-detail')
 
     class Meta:
