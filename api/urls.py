@@ -1,20 +1,26 @@
 
 from django.conf.urls import url, include
 from rest_framework import routers
-from api.views.comment import JourneyCommentsView, JourneyCommentsDetail
+from api.views.comment import *
+from api.views.news import *
+from api.views.faq import *
+from api.views.client_company import *
+from api.views.document import *
+from api.views.feedback import *
+
 from api.views.category import CategoryCreateListAPIView, CategoryDetailsAPIView
 from api.views.order_anonymous import OrderAnonymousCreateAPIView, OrderAnonymousListAPIView, OrderAnonymousDetailsAPIView
 from api.views.order import OrderAPIView, OrderDetailView
 from api.views.journey import JourneyCreateListAPIView, JourneyDetailsAPIView
-from api.views import news, faq, client_company, document, feedback
 
 
 router = routers.DefaultRouter()
-router.register(r'news', news.NewsViewSet)
-router.register(r'faq', faq.FaqViewSet)
-router.register(r'client_company', client_company.ClientCompanyViewSet)
-router.register(r'documents', document.DocumentViewSet)
-router.register(r'feedback', feedback.FeedBackViewSet)
+router.register(r'news', NewsViewSet)
+router.register(r'faq', FaqViewSet)
+router.register(r'client_company', ClientCompanyViewSet)
+router.register(r'documents', DocumentViewSet)
+router.register(r'feedback', FeedBackViewSet)
+router.register(r'journey/(?P<id>[0-9]+)/comments', JourneyCommentsViewSet, base_name='comments')
 
 
 urlpatterns = [
@@ -30,10 +36,6 @@ urlpatterns = [
 
     url(r'^category/$', CategoryCreateListAPIView.as_view()),
     url(r'^category/(?P<pk>[0-9]+)/$', CategoryDetailsAPIView.as_view(), name='category-detail'),
-
-    url(r'^journey/(?P<pk>[0-9]+)/comments/$', JourneyCommentsView.as_view()),
-    url(r'^journey/(?P<pk>[0-9]+)/comments/(?P<com_pk>[0-9]+)/$', JourneyCommentsDetail.as_view(),
-        name='comments-detail'),
 
     url(r'^user/', include('rest_auth.urls')),
     url(r'^user/registration/', include('rest_auth.registration.urls')),
