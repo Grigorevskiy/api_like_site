@@ -5,17 +5,13 @@ from api.serializers.comment import CommentSerializer
 from api.models import Comment
 from ..permissions import IsOwner
 from rest_framework import permissions, status, viewsets
+from django.core.cache import cache
 
 
 class JourneyCommentsViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-
-    # def get_permissions(self):
-    #     if self.action in ["list", "create"]:
-    #         return self.permission_classes(permissions.IsAuthenticatedOrReadOnly,)
-    #
-    #     return self.permission_classes(IsOwner,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner)
 
     def perform_create(self, serializer):
             serializer.save(user=self.request.user)
@@ -26,6 +22,12 @@ class JourneyCommentsViewSet(viewsets.ModelViewSet):
         comment = get_object_or_404(Comment, pk=kwargs.get('pk', 0))
 
         if request.user.id not in comment.liked_by:
+            cached_likers = cache.set('id', request.user.id)
+            if cached_likers > 3:
+                for cached_liker in cached_likers:
+                    comment.liked_by.append(cached_liker)
+                    cache.delete('id')
+
             comment.liked_by.append(request.user.id)
             comment.likes += 1
             comment.save()

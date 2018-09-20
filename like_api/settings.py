@@ -47,11 +47,11 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 
     'allauth',
-    'django.contrib.sites',
     'allauth.account',
     'rest_auth.registration',
 
     'api.apps.ApiConfig',
+    'django.contrib.sites',
 ]
 
 SITE_ID = 1
@@ -115,6 +115,16 @@ DATABASES = {
         'PASSWORD': '123123',
         'HOST': 'localhost',
         'PORT': '5432',
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 
