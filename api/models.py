@@ -2,8 +2,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.contrib.auth.models import User
 
-from like_api import settings
-
 
 class News(models.Model):
     class Meta:
@@ -74,7 +72,6 @@ class Comment(models.Model):
     body = models.TextField(verbose_name='Відгук')
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
-
     liked_by = ArrayField(models.IntegerField(), default=list)
 
     def __str__(self):
