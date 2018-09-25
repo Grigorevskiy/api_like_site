@@ -1,10 +1,12 @@
 
 from rest_framework import serializers
 from ..models import Comment
+from django_redis import cache
+from django.core.cache import cache
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    # liked_by_me = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -15,11 +17,13 @@ class CommentSerializer(serializers.ModelSerializer):
             'body',
             'likes',
             'created_at',
-            # 'liked_by_me',
         ]
 
-        read_only_fields = ['user', 'likes', 'is_liked_by_me',]
-    # def get_liked_by_me(self, obj):
-    #     if self.context['request'].user.id in obj.liked_by:
-    #         return True
-    #     return False
+        read_only_fields = ['user', 'likes',]
+
+    def get_likes(self, obj):
+        if not cache.has_key('likers-{}'.format(obj.pk)):
+            cache.set('likers-{}'.format(obj.pk), obj.liked_by)
+
+        likes = len(cache.get('likers-{}'.format(obj.pk)))
+        return likes
