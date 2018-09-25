@@ -47,11 +47,13 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 
     'allauth',
-    'django.contrib.sites',
     'allauth.account',
     'rest_auth.registration',
 
     'api.apps.ApiConfig',
+    'django.contrib.sites',
+
+    'django_filters',
 ]
 
 SITE_ID = 1
@@ -61,9 +63,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
-
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
 }
 
 MIDDLEWARE = [
@@ -115,6 +120,16 @@ DATABASES = {
         'PASSWORD': '123123',
         'HOST': 'localhost',
         'PORT': '5432',
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 

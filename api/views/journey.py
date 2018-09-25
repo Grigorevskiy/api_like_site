@@ -1,20 +1,16 @@
 
+from rest_framework.filters import SearchFilter
+from rest_framework import viewsets
 from api.serializers.journey import JourneySerializer
 from api.models import Journey
-from rest_framework.generics import *
 from api.permissions import IsAdminOrReadOnly
 
 
-class JourneyCreateListAPIView(ListCreateAPIView):
+class JourneyViewSet(viewsets.ModelViewSet):
     serializer_class = JourneySerializer
     permission_classes = (IsAdminOrReadOnly,)
+
+    filter_backends = (SearchFilter,)
+    search_fields = ('title',)
 
     queryset = Journey.objects.all()
-
-
-class JourneyDetailsAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = JourneySerializer
-    permission_classes = (IsAdminOrReadOnly,)
-
-    def get_queryset(self):
-        return Journey.objects.filter(id=self.kwargs.get('pk', 0))
