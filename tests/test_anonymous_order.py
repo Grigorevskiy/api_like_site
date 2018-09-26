@@ -1,6 +1,5 @@
 
 import json
-
 from rest_framework.test import APITestCase
 from django.test import Client
 from django.contrib.auth.models import User
