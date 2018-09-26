@@ -19,7 +19,7 @@ class JourneyCommentsViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
             serializer.save(user=self.request.user)
 
-    @action(methods=['GET', 'DELETE'], detail=True)
+    @action(methods=['POST'], detail=True)
     def like(self, request, pk, *args, **kwargs):
 
         comment = get_object_or_404(self.get_queryset().filter(pk=pk))
@@ -29,18 +29,50 @@ class JourneyCommentsViewSet(viewsets.ModelViewSet):
 
         cached_likers = cache.get('likers-{}'.format(comment.pk))
 
-        if request.method == 'GET':
-            if request.user.id not in cached_likers:
-                cached_likers.append(request.user.id)
-                cache.set('likers-{}'.format(comment.pk), cached_likers)
+        if request.user.id not in cached_likers:
+            cached_likers.append(request.user.id)
+            cache.set('likers-{}'.format(comment.pk), cached_likers)
 
-            if len(cache.get('likers-{}'.format(comment.pk))) % 10 == 0:
-                comment.liked_by = cached_likers
-                comment.save()
-
-        else:
-            if request.user.id in cached_likers:
-                cached_likers.remove(request.user.id)
-                cache.set('likers-{}'.format(comment.pk), cached_likers)
+        if len(cache.get('likers-{}'.format(comment.pk))) % 10 == 0:
+            comment.liked_by = cached_likers
+            comment.save()
 
         return Response(status=status.HTTP_200_OK)
+
+    @action(methods=['DELETE'], detail=True)
+    def dislike(self, request, pk, *args, **kwargs):
+
+        comment = get_object_or_404(self.get_queryset().filter(pk=pk))
+        cached_likers = cache.get('likers-{}'.format(comment.pk))
+
+        if request.user.id in cached_likers:
+            cached_likers.remove(request.user.id)
+            cache.set('likers-{}'.format(comment.pk), cached_likers)
+
+        return Response(status=status.HTTP_200_OK)
+
+    # @action(methods=['GET', 'DELETE'], detail=True)
+    # def like(self, request, pk, *args, **kwargs):
+    #
+    #     comment = get_object_or_404(self.get_queryset().filter(pk=pk))
+    #
+    #     if not cache.has_key('likers-{}'.format(comment.pk)):
+    #         cache.set('likers-{}'.format(comment.pk), comment.liked_by)
+    #
+    #     cached_likers = cache.get('likers-{}'.format(comment.pk))
+    #
+    #     if request.method == 'GET':
+    #         if request.user.id not in cached_likers:
+    #             cached_likers.append(request.user.id)
+    #             cache.set('likers-{}'.format(comment.pk), cached_likers)
+    #
+    #         if len(cache.get('likers-{}'.format(comment.pk))) % 10 == 0:
+    #             comment.liked_by = cached_likers
+    #             comment.save()
+    #
+    #     else:
+    #         if request.user.id in cached_likers:
+    #             cached_likers.remove(request.user.id)
+    #             cache.set('likers-{}'.format(comment.pk), cached_likers)
+    #
+    #     return Response(status=status.HTTP_200_OK)
