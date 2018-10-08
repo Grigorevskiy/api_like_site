@@ -1,7 +1,10 @@
 
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.contrib.auth.models import User
+
+from like_api import settings
 
 
 class News(models.Model):
@@ -69,7 +72,7 @@ class Comment(models.Model):
         ordering = ('-created_at',)
 
     journey = models.ForeignKey(Journey, related_name='comments', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comments', on_delete=models.CASCADE)
     body = models.TextField(verbose_name='Відгук')
     created_at = models.DateTimeField(auto_now_add=True)
     liked_by = ArrayField(models.IntegerField(), default=list)
@@ -140,7 +143,7 @@ class Order(models.Model):
         (1, 'Оплачене'),
     )
 
-    user = models.ForeignKey(User, verbose_name='Покупець', on_delete=False, editable=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Покупець', on_delete=False, editable=False)
     journey = models.ForeignKey(Journey, related_name='in_orders', on_delete=False, editable=False)
     email_address = models.CharField(max_length=255, verbose_name='Email адрес', blank=False)
     contact_phone = models.CharField(max_length=255, verbose_name='Номер телефону', blank=False)
@@ -170,3 +173,8 @@ class OrderAnonymous(models.Model):
 
     def __str__(self):
         return "Order # " + str(self.name)
+
+
+class Token(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=255)

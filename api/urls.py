@@ -8,6 +8,7 @@ from api.views.client_company import *
 from api.views.document import *
 from api.views.feedback import *
 from api.views.journey import *
+from api.views.accounts import *
 
 from api.views.category import CategoryCreateListAPIView, CategoryDetailsAPIView
 from api.views.order_anonymous import OrderAnonymousCreateAPIView, OrderAnonymousListAPIView, OrderAnonymousDetailsAPIView
@@ -25,6 +26,14 @@ router.register(r'journey/(?P<id>[0-9]+)/comments', JourneyCommentsViewSet, base
 
 
 urlpatterns = [
+    url(r'^use/login/$', LoginAPIView.as_view()),
+    url(r'^use/logout/$', LogoutAPIView.as_view()),
+    url(r'^use/registration/$', RegisterAPIView.as_view()),
+    url(r'^use/change-password/$', ChangePasswordAPIView.as_view()),
+
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        activate, name='activate'),
+
     url(r'^journey/(?P<pk>[0-9]+)/order/$', OrderAPIView.as_view()),
     url(r'^journey/(?P<pk>[0-9]+)/order/(?P<order_pk>[0-9]+)/$', OrderDetailView.as_view()),
 
@@ -35,8 +44,8 @@ urlpatterns = [
     url(r'^category/$', CategoryCreateListAPIView.as_view()),
     url(r'^category/(?P<pk>[0-9]+)/$', CategoryDetailsAPIView.as_view(), name='category-detail'),
 
-    url(r'^user/', include('rest_auth.urls')),
-    url(r'^user/registration/', include('rest_auth.registration.urls')),
+    # url(r'^user/', include('rest_auth.urls')),
+    # url(r'^user/registration/', include('rest_auth.registration.urls')),
 ]
 
 urlpatterns += router.urls
