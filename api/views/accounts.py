@@ -40,7 +40,7 @@ class LoginAPIView(APIView):
         if qs.count() == 1:
             user_obj = qs.first()
 
-            if user_obj.is_active is False:
+            if not user_obj.is_active:
                 return Response({'detail': 'Please, confirm your registration first!'}, status=400)
 
             if user_obj. check_password(password):
