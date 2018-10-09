@@ -8,7 +8,6 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework_jwt.settings import api_settings
 from django.utils import timezone
-from api.models import Token
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils import six
 
@@ -83,8 +82,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user_obj.set_password(validated_data.pop('password'))
         user_obj.is_active = False
         user_obj.save()
-
-        Token.objects.create(user=user_obj, token=account_activation_token.make_token(user_obj))
 
         current_site = "http://127.0.0.1:8000"
         # current_site = get_current_site(self)

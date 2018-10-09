@@ -173,8 +173,3 @@ class OrderAnonymous(models.Model):
 
     def __str__(self):
         return "Order # " + str(self.name)
-
-
-class Token(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    token = models.CharField(max_length=255)

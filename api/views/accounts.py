@@ -89,7 +89,6 @@ class ChangePasswordAPIView(GenericAPIView):
 
 
 class LogoutAPIView(APIView):
-
     def post(self, request):
         logout(request)
         return Response(status=200)

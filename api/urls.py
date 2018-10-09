@@ -26,10 +26,10 @@ router.register(r'journey/(?P<id>[0-9]+)/comments', JourneyCommentsViewSet, base
 
 
 urlpatterns = [
-    url(r'^use/login/$', LoginAPIView.as_view()),
-    url(r'^use/logout/$', LogoutAPIView.as_view()),
-    url(r'^use/registration/$', RegisterAPIView.as_view()),
-    url(r'^use/change-password/$', ChangePasswordAPIView.as_view()),
+    url(r'^user/login/$', LoginAPIView.as_view()),
+    url(r'^user/logout/$', LogoutAPIView.as_view()),
+    url(r'^user/registration/$', RegisterAPIView.as_view()),
+    url(r'^user/change-password/$', ChangePasswordAPIView.as_view()),
 
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         activate, name='activate'),

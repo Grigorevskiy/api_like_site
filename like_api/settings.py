@@ -43,14 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_auth',
     'rest_framework',
-    'rest_framework.authtoken',
     'rest_framework_swagger',
-
-    'allauth',
-    'allauth.account',
-    'rest_auth.registration',
 
     'api.apps.ApiConfig',
     'django.contrib.sites',
@@ -132,13 +126,6 @@ WSGI_APPLICATION = 'like_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
@@ -205,7 +192,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # TEST EMAIL CONFIGURATION
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'grigorevskiyvv@gmail.com' # Clarify email for sending an email
+EMAIL_HOST_USER = 'grigorevskiyvv@gmail.com'
 EMAIL_HOST_PASSWORD = 'dendi2015'
 EMAIL_PORT = 587
 
