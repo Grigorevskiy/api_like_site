@@ -4,7 +4,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from rest_framework import serializers, request
+from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework_jwt.settings import api_settings
 from django.utils import timezone
@@ -75,9 +75,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
+        if self.context['request'].user.is_authenticated:
+            raise serializers.ValidationError("You are already registered!")
+
         account_activation_token = AccountActivationTokenGenerator()
-        user_obj = User(username=validated_data.get('username'),
-                        email=validated_data.get('email'))
+        user_obj = User(username=validated_data.get('username'), email=validated_data.get('email'))
         user_obj.set_password(validated_data.pop('password'))
         user_obj.is_active = False
         user_obj.save()

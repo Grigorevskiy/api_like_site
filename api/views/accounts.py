@@ -39,6 +39,10 @@ class LoginAPIView(APIView):
 
         if qs.count() == 1:
             user_obj = qs.first()
+
+            if user_obj.is_active is False:
+                return Response({'detail': 'Please, confirm your registration first!'}, status=400)
+
             if user_obj. check_password(password):
                 user = user_obj
                 payload = jwt_payload_handler(user)
