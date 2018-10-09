@@ -24,16 +24,18 @@ class JourneyCommentsViewSet(viewsets.ModelViewSet):
 
         comment = get_object_or_404(self.get_queryset().filter(pk=pk))
 
-        if not cache.has_key('likers-{}'.format(comment.pk)):
-            cache.set('likers-{}'.format(comment.pk), comment.liked_by)
+        redis_key_for_comment = 'likers-{}'.format(comment.pk)
 
-        cached_likers = cache.get('likers-{}'.format(comment.pk))
+        if not cache.has_key(redis_key_for_comment):
+            cache.set(redis_key_for_comment, comment.liked_by)
+
+        cached_likers = cache.get(redis_key_for_comment)
 
         if request.user.id not in cached_likers:
             cached_likers.append(request.user.id)
-            cache.set('likers-{}'.format(comment.pk), cached_likers)
+            cache.set(redis_key_for_comment, cached_likers)
 
-        if len(cache.get('likers-{}'.format(comment.pk))) % 10 == 0:
+        if len(cache.get(redis_key_for_comment)) % 10 == 0:
             comment.liked_by = cached_likers
             comment.save()
 
