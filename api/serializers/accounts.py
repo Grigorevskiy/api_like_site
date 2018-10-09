@@ -4,7 +4,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from rest_framework import serializers
+from rest_framework import serializers, request
 from django.contrib.auth import get_user_model
 from rest_framework_jwt.settings import api_settings
 from django.utils import timezone
@@ -85,7 +85,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         Token.objects.create(user=user_obj, token=account_activation_token.make_token(user_obj))
 
         current_site = "http://127.0.0.1:8000"
-        # current_site = get_current_site(request)
+        # current_site = get_current_site(self)
 
         message = render_to_string('acc_active_email.html', {
             'user': user_obj,

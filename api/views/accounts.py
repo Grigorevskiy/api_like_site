@@ -1,7 +1,5 @@
 
-import six
 from coreapi.compat import force_text
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.http import urlsafe_base64_decode
 from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
@@ -10,7 +8,8 @@ from rest_framework.views import APIView
 from rest_framework import generics, status, permissions
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from api.serializers.accounts import RegistrationSerializer, ChangePasswordSerializer, LoginSerializer
+from api.serializers.accounts import RegistrationSerializer, ChangePasswordSerializer, LoginSerializer, \
+    AccountActivationTokenGenerator
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import login, logout
@@ -53,13 +52,6 @@ class LoginAPIView(APIView):
 class RegisterAPIView(generics.CreateAPIView):
     serializer_class = RegistrationSerializer
     permission_classes = [permissions.AllowAny]
-
-
-class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
-    def _make_hash_value(self, user, timestamp):
-        return (
-            six.text_type(user.pk) + six.text_type(timestamp) + six.text_type(User.is_active)
-        )
 
 
 @api_view(['GET'])
