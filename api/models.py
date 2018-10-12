@@ -2,11 +2,11 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth import get_user_model
 
-from like_api import settings
+User = get_user_model()
 
 
 class News(models.Model):
@@ -74,7 +74,7 @@ class Comment(models.Model):
         ordering = ('-created_at',)
 
     journey = models.ForeignKey(Journey, related_name='comments', on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
     body = models.TextField(verbose_name='Відгук')
     created_at = models.DateTimeField(auto_now_add=True)
     liked_by = ArrayField(models.IntegerField(), default=list)
@@ -145,7 +145,7 @@ class Order(models.Model):
         (1, 'Оплачене'),
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Покупець', on_delete=False, editable=False)
+    user = models.ForeignKey(User, verbose_name='Покупець', on_delete=False, editable=False)
     journey = models.ForeignKey(Journey, related_name='in_orders', on_delete=False, editable=False)
     email_address = models.CharField(max_length=255, verbose_name='Email адрес', blank=False)
     contact_phone = models.CharField(max_length=255, verbose_name='Номер телефону', blank=False)
@@ -182,17 +182,15 @@ class Profile(models.Model):
         verbose_name = "Профіль"
         verbose_name_plural = "Профілі"
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.TextField(max_length=15, blank=True)
     last_name = models.TextField(max_length=15, blank=True)
 
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    # @receiver(post_save, sender=User)
+    # def save_user_profile(sender, instance, **kwargs):
+    #     instance.profile.save()
