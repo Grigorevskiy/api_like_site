@@ -3,6 +3,8 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from like_api import settings
 
@@ -173,3 +175,24 @@ class OrderAnonymous(models.Model):
 
     def __str__(self):
         return "Order # " + str(self.name)
+
+
+class Profile(models.Model):
+    class Meta:
+        verbose_name = "Профіль"
+        verbose_name_plural = "Профілі"
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    first_name = models.TextField(max_length=15, blank=True)
+    last_name = models.TextField(max_length=15, blank=True)
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

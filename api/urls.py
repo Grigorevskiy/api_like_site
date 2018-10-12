@@ -9,6 +9,7 @@ from api.views.document import *
 from api.views.feedback import *
 from api.views.journey import *
 from api.views.accounts import *
+from api.views.profile import *
 
 from api.views.category import CategoryCreateListAPIView, CategoryDetailsAPIView
 from api.views.order_anonymous import OrderAnonymousCreateAPIView, OrderAnonymousListAPIView, OrderAnonymousDetailsAPIView
@@ -26,6 +27,8 @@ router.register(r'journey/(?P<id>[0-9]+)/comments', JourneyCommentsViewSet, base
 
 
 urlpatterns = [
+    url(r'^user/(?P<pk>[0-9]+)/profile/$', ProfileAPIView.as_view()),
+
     url(r'^user/login/$', LoginAPIView.as_view()),
     url(r'^user/logout/$', LogoutAPIView.as_view()),
     url(r'^user/registration/$', RegisterAPIView.as_view()),
