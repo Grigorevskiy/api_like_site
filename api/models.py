@@ -2,11 +2,7 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from django.contrib.auth.models import User
 
 
 class News(models.Model):
@@ -182,15 +178,14 @@ class Profile(models.Model):
         verbose_name = "Профіль"
         verbose_name_plural = "Профілі"
 
+    SEX_CHOICES = (
+        ('none', "Не вказано"),
+        ('man', "Чоловіча"),
+        ('woman', "Жіноча"),
+    )
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.TextField(max_length=15, blank=True)
     last_name = models.TextField(max_length=15, blank=True)
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-
-    # @receiver(post_save, sender=User)
-    # def save_user_profile(sender, instance, **kwargs):
-    #     instance.profile.save()
+    sex = models.CharField(verbose_name="Стать", max_length=10, choices=SEX_CHOICES, default=SEX_CHOICES[0][0])
+    birthday = models.DateField(verbose_name="Дата народження", null=True, blank=True)

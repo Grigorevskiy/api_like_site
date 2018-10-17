@@ -1,5 +1,5 @@
 
-from django.conf.urls import url, include
+from django.conf.urls import url
 from rest_framework import routers
 from api.views.comment import *
 from api.views.news import *
@@ -27,7 +27,7 @@ router.register(r'journey/(?P<id>[0-9]+)/comments', JourneyCommentsViewSet, base
 
 
 urlpatterns = [
-    url(r'^user/(?P<pk>[0-9]+)/profile/$', ProfileAPIView.as_view()),
+    url(r'^user/(?P<user_id>[0-9]+)/profile/$', ProfileAPIView.as_view()),
 
     url(r'^user/login/$', LoginAPIView.as_view()),
     url(r'^user/logout/$', LogoutAPIView.as_view()),

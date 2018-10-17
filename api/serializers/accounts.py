@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from rest_framework_jwt.settings import api_settings
 from django.utils import timezone
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -16,8 +16,6 @@ jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 expire_delta = api_settings.JWT_REFRESH_EXPIRATION_DELTA
-
-User = get_user_model()
 
 
 class AccountActivationTokenGenerator(PasswordResetTokenGenerator):

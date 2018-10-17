@@ -6,7 +6,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import generics, status, permissions
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.db.models import Q
 from api.serializers.accounts import RegistrationSerializer, ChangePasswordSerializer, LoginSerializer, \
     AccountActivationTokenGenerator
@@ -18,8 +18,6 @@ from django.contrib.auth import login, logout
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
-
-User = get_user_model()
 
 
 class LoginAPIView(APIView):
