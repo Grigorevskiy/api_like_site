@@ -30,8 +30,9 @@ SECRET_KEY = '_^gqk*rhtqa*6h9pm_*%x&cgbdd9qccowdfqzc65d0tl8-@_(+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
+SITE_ID = 1
 
 # Application definition
 
@@ -50,9 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'django_filters',
-]
 
-SITE_ID = 1
+    'debug_toolbar',
+]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -100,6 +101,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'like_api.urls'
@@ -121,7 +123,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'like_api.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -184,9 +185,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = "public/static"
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = 'public/media'
 
 
 # TEST EMAIL CONFIGURATION

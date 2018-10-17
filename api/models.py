@@ -4,8 +4,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.contrib.auth.models import User
 
-from like_api import settings
-
 
 class News(models.Model):
     class Meta:
@@ -72,7 +70,7 @@ class Comment(models.Model):
         ordering = ('-created_at',)
 
     journey = models.ForeignKey(Journey, related_name='comments', on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
     body = models.TextField(verbose_name='Відгук')
     created_at = models.DateTimeField(auto_now_add=True)
     liked_by = ArrayField(models.IntegerField(), default=list)
@@ -143,7 +141,7 @@ class Order(models.Model):
         (1, 'Оплачене'),
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Покупець', on_delete=False, editable=False)
+    user = models.ForeignKey(User, verbose_name='Покупець', on_delete=False, editable=False)
     journey = models.ForeignKey(Journey, related_name='in_orders', on_delete=False, editable=False)
     email_address = models.CharField(max_length=255, verbose_name='Email адрес', blank=False)
     contact_phone = models.CharField(max_length=255, verbose_name='Номер телефону', blank=False)
@@ -173,3 +171,21 @@ class OrderAnonymous(models.Model):
 
     def __str__(self):
         return "Order # " + str(self.name)
+
+
+class Profile(models.Model):
+    class Meta:
+        verbose_name = "Профіль"
+        verbose_name_plural = "Профілі"
+
+    SEX_CHOICES = (
+        ('none', "Не вказано"),
+        ('man', "Чоловіча"),
+        ('woman', "Жіноча"),
+    )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.TextField(max_length=15, blank=True)
+    last_name = models.TextField(max_length=15, blank=True)
+    sex = models.CharField(verbose_name="Стать", max_length=10, choices=SEX_CHOICES, default=SEX_CHOICES[0][0])
+    birthday = models.DateField(verbose_name="Дата народження", null=True, blank=True)

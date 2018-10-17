@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 from django.conf.urls import url
 from rest_framework_swagger.views import get_swagger_view
+from django.conf import settings
 
-schema_view = get_swagger_view(title='Pastebin API')
+schema_view = get_swagger_view(title='Like API')
 
 
 urlpatterns = [
@@ -26,3 +28,12 @@ urlpatterns = [
     url(r'^swagger/$', schema_view),
     url(r'^', include('api.urls')),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+        path('docs', schema_view),
+        path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    ] + urlpatterns
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
