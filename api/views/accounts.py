@@ -5,9 +5,11 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework import generics, status, permissions
+from rest_framework import generics, status, permissions, request
 from django.contrib.auth.models import User
 from django.db.models import Q
+
+from api.models import Profile
 from api.serializers.accounts import RegistrationSerializer, ChangePasswordSerializer, LoginSerializer, \
     AccountActivationTokenGenerator
 from rest_framework.response import Response
@@ -41,12 +43,12 @@ class LoginAPIView(APIView):
             if not user_obj.is_active:
                 return Response({'detail': 'Please, confirm your registration first!'}, status=400)
 
-            if user_obj. check_password(password):
+            if user_obj.check_password(password):
                 user = user_obj
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
                 login(request, user_obj)
-                return Response({"token": token})
+                return Response({"token": token, "user_id": request.user.id})
 
         return Response({'detail': 'Invalid credentials'}, status=401)
 

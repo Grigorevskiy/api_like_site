@@ -189,3 +189,4 @@ class Profile(models.Model):
     last_name = models.TextField(max_length=15, blank=True)
     sex = models.CharField(verbose_name="Стать", max_length=10, choices=SEX_CHOICES, default=SEX_CHOICES[0][0])
     birthday = models.DateField(verbose_name="Дата народження", null=True, blank=True)
+    profile_avatar = models.ImageField(upload_to='journeys_photos', default=None, blank=True)

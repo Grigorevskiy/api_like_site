@@ -1,7 +1,10 @@
 
 from django.contrib import admin
-from .models import News, NewsPhoto, Category, Journey, JourneyPhoto, Faq, ClientCompany, Document, Order, OrderAnonymous, Profile
-
+from .models import News, NewsPhoto,\
+                    Category, Journey,\
+                    JourneyPhoto, Faq,\
+                    ClientCompany, Document,\
+                    Order, OrderAnonymous, Profile
 
 
 class NewsPhotoInline(admin.TabularInline):
